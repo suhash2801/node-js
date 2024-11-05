@@ -1,11 +1,20 @@
-FROM node:12.14.1-alpine
+# Use an official Node.js runtime as a parent image
+FROM node:14
 
-RUN mkdir -p /home/node/app && chown -R node:node /home/node/app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-WORKDIR /home/node/app
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-USER node
+# Install dependencies
+RUN npm install
 
+# Copy the rest of your application files
 COPY . .
 
-CMD [ "npm", "start" ]
+# Expose the port your app runs on
+EXPOSE 3000
+
+# Command to run your app
+CMD ["node", "index.js"]
